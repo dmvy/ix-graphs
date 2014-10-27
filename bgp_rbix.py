@@ -48,6 +48,25 @@ for link in doc.cssselect('tr.none td'):
         else:
             continue
 
+for link in doc.cssselect('tr.odd td'):
+    for inform in link.text.split('\n'):
+        res=inform
+        if ( res[0:8] == '185.1.0.' ):
+            ip=res
+        elif (ip != ''):
+            asnum=res
+            as_name=Popen('whois -F -r -T aut-num as'+asnum+'|grep "*aa:"|cut -d ":" -f 2',stdout=PIPE,shell=True).stdout.readlines()
+            as_descr=Popen('whois -F -r -T aut-num as'+asnum+'|grep "*de:"|cut -d ":" -f 2',stdout=PIPE,shell=True).stdout.readlines()
+            print '%s;%s;%s;%s' % (ip, asnum, as_name[0][1:-1], as_descr[0][1:-1])
+            peers.write('%s;%s;%s;%s\n' % (ip, asnum, as_name[0][1:-1], as_descr[0][1:-1]))
+            index.write('<div>ip: %s; AS%s; as-name: %s; as-descr: %s</div>' %
+            (ip, asnum, as_name[0][1:-1], as_descr[0][1:-1]))
+            index.write('<img src=png/%s.png />' % ip)
+            index.write('<img src=png/%s_month.png />' % ip)
+            ip = ''
+        else:
+            continue
+
 index.write("""</center>
 </body>
 </html>""")
