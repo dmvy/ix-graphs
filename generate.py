@@ -78,9 +78,7 @@ else:
                         oid_in
                     )
                     tmp02=varBindTable2[0]
-                    if not (tmp02[1]):
-                        in_bytes=0
-                    else:
+                    if (tmp02[1]):
                         in_bytes=in_bytes+tmp02[1]
                     # out bytes
                     oid_out=(1,3,6,1,4,1,2636,3,23,1,1,1,5,interface,l2_vlan)+oid_mac
@@ -90,9 +88,7 @@ else:
                         oid_out
                     )
                     tmp03=varBindTable3[0]
-                    if not (tmp03[1]):
-                        out_bytes=0
-                    else:
+                    if (tmp03[1]):
                         out_bytes=out_bytes+tmp03[1]
                 print '%s %s %s' % (arp_ip ,in_bytes,out_bytes)
 #                print d.get(arp_ip,'null')
